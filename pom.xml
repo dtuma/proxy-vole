@@ -10,11 +10,11 @@
 
   <groupId>org.bidib.com.github.markusbernhardt</groupId>
   <artifactId>proxy-vole</artifactId>
-  <version>1.0.6-SNAPSHOT</version>
+  <version>1.0.6</version>
 
   <name>Proxy Vole</name>
   <description>Proxy Vole is a Java library to auto detect the platform network proxy settings.</description>
-  <url>https://github.com/MarkusBernhardt/proxy-vole</url>
+  <url>https://github.com/akuhtz/proxy-vole</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,9 +25,9 @@
   </properties>
 
   <scm>
-    <url>https://github.com/MarkusBernhardt/proxy-vole</url>
-    <connection>scm:git://github.com/MarkusBernhardt/proxy-vole.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/MarkusBernhardt/proxy-vole.git</developerConnection>
+    <url>https://github.com/akuhtz/proxy-vole</url>
+    <connection>scm:git://github.com/akuhtz/proxy-vole.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/akuhtz/proxy-vole.git</developerConnection>
   </scm>
 
   <licenses>
@@ -71,10 +71,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+	  <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.github.stefanbirkner</groupId>
       <artifactId>system-rules</artifactId>
+	  <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -111,13 +113,11 @@
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.12</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.github.stefanbirkner</groupId>
         <artifactId>system-rules</artifactId>
         <version>1.18.0</version>
-        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
