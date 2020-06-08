@@ -1,19 +1,18 @@
 # proxy-vole
 
 Proxy Vole is a Java library to auto detect the platform network proxy settings.  
-Note: This library is a fork of the now dead [proxy-vole](https://code.google.com/p/proxy-vole/) project by Bernd Rosstauscher hosted at Google Code.
+Note: This library is a fork of the seemingly dead [proxy-vole](https://github.com/MarkusBernhardt/proxy-vole)
+fork from Markus Bernhardt which was based on the dead [proxy-vole](https://code.google.com/p/proxy-vole/) project 
+by Bernd Rosstauscher hosted at Google Code.
 
 ## Introduction
 The library provides some proxy setting search strategies to read the proxy settings from the system config 
 (Windows, KDE, Gnome, OSX), browser config (Firefox, IE) or environment variables and provides you an ready to use proxy selector.
 
 ## Why a fork?
-* Can't contact Bernd Rosstauscher.
-* Google Code is dead by now.
-* proxy-vole seems to be dead even longer. Last commit mid 2015. Last release end 2013.
-* proxy-vole is not available on any public Maven repository. Needed to change the Maven coordinates and Java package names
-  to be able to push it to Maven Central on my own.
-* I don't like the Windows DLL and usage of JNI. Replaced both by JNA.
+* Markus Bernhardt [doesn't answer any issues or pull requests here for nearly a year now](https://github.com/MarkusBernhardt/proxy-vole/issues/72#issuecomment-597141988).
+* No release with a fix for the [NullPointerException in Proxy-vole 1.0.5](https://github.com/MarkusBernhardt/proxy-vole/issues/50).
+* Needed to change the Maven coordinates to be able to push it to Maven Central on my own.
 
 ## Usage
 
