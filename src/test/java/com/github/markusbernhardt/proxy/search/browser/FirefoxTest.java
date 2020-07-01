@@ -7,6 +7,7 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,139 +24,147 @@ import com.github.markusbernhardt.proxy.util.ProxyException;
 
 public class FirefoxTest {
 
-	/*************************************************************************
-	 * Setup environment for tests.
-	 ************************************************************************/
-	@BeforeClass
-	public static void setup() {
-		// Fake the OS for this tests.
-		System.setProperty("os.name", "Linux");
-	}
+    private static String orgOS;
 
-	/*************************************************************************
-	 * Test method.
-	 * 
-	 * @throws ProxyException
-	 *             on error.
-	 ************************************************************************/
-	@Test
-	public void testNone() throws ProxyException {
-		TestUtil.setTestDataFolder("ff3_none");
+    /*************************************************************************
+     * Setup environment for tests.
+     ************************************************************************/
+    @BeforeClass
+    public static void setup() {
+        // Fake the OS for this tests.
+        orgOS = System.setProperty("os.name", "Linux");
+    }
 
-		FirefoxProxySearchStrategy ff = new FirefoxProxySearchStrategy();
-		ProxySelector ps = ff.getProxySelector();
+    @AfterClass
+    public static void cleanup() {
+        // Restore the original OS after this tests.
+        System.setProperty("os.name", orgOS);
+    }
 
-		List<Proxy> result = ps.select(TestUtil.HTTPS_TEST_URI);
-		assertEquals(Proxy.NO_PROXY, result.get(0));
+    /*************************************************************************
+     * Test method.
+     * 
+     * @throws ProxyException
+     *             on error.
+     ************************************************************************/
+    @Test
+    public void testNone() throws ProxyException {
+        TestUtil.setTestDataFolder("ff3_none");
 
-	}
+        FirefoxProxySearchStrategy ff = new FirefoxProxySearchStrategy();
+        ProxySelector ps = ff.getProxySelector();
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testManualHttp() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_manual");
+        List<Proxy> result = ps.select(TestUtil.HTTPS_TEST_URI);
+        assertEquals(Proxy.NO_PROXY, result.get(0));
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+    }
 
-		List<Proxy> result = ps.select(TestUtil.HTTP_TEST_URI);
-		assertEquals(TestUtil.HTTP_TEST_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testManualHttp() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_manual");
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testManualHttps() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_manual");
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+        List<Proxy> result = ps.select(TestUtil.HTTP_TEST_URI);
+        assertEquals(TestUtil.HTTP_TEST_PROXY, result.get(0));
+    }
 
-		List<Proxy> result = ps.select(TestUtil.HTTPS_TEST_URI);
-		assertEquals(TestUtil.HTTPS_TEST_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testManualHttps() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_manual");
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testManualFtp() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_manual");
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+        List<Proxy> result = ps.select(TestUtil.HTTPS_TEST_URI);
+        assertEquals(TestUtil.HTTPS_TEST_PROXY, result.get(0));
+    }
 
-		List<Proxy> result = ps.select(TestUtil.FTP_TEST_URI);
-		assertEquals(TestUtil.FTP_TEST_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testManualFtp() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_manual");
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testManualSocks() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_manual");
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+        List<Proxy> result = ps.select(TestUtil.FTP_TEST_URI);
+        assertEquals(TestUtil.FTP_TEST_PROXY, result.get(0));
+    }
 
-		List<Proxy> result = ps.select(TestUtil.SOCKS_TEST_URI);
-		assertEquals(TestUtil.SOCKS_TEST_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testManualSocks() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_manual");
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testPac() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_pac_script");
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+        List<Proxy> result = ps.select(TestUtil.SOCKS_TEST_URI);
+        assertEquals(TestUtil.SOCKS_TEST_PROXY, result.get(0));
+    }
 
-		List<Proxy> result = ps.select(TestUtil.HTTP_TEST_URI);
-		assertEquals(TestUtil.HTTP_TEST_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testPac() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_pac_script");
 
-	/*************************************************************************
-	 * Test method
-	 * 
-	 * @throws ProxyException
-	 *             on proxy detection error.
-	 * @throws URISyntaxException
-	 *             on invalid URL syntax.
-	 ************************************************************************/
-	@Test
-	public void testWhiteList() throws ProxyException, URISyntaxException {
-		TestUtil.setTestDataFolder("ff3_white_list");
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
 
-		ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+        List<Proxy> result = ps.select(TestUtil.HTTP_TEST_URI);
+        assertEquals(TestUtil.HTTP_TEST_PROXY, result.get(0));
+    }
 
-		List<Proxy> result = ps.select(TestUtil.NO_PROXY_TEST_URI);
-		assertEquals(Proxy.NO_PROXY, result.get(0));
-	}
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testWhiteList() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff3_white_list");
+
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+
+        List<Proxy> result = ps.select(TestUtil.NO_PROXY_TEST_URI);
+        assertEquals(Proxy.NO_PROXY, result.get(0));
+    }
 
 }
