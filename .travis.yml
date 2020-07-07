@@ -11,14 +11,13 @@ env:
 
 before_install:
 
-install:
+script:
   - mvn -version
   - mvn -U clean verify
 
-
 cache:
- directories:
-   - $HOME/.m2/repository
+  directories:
+  - $HOME/.m2/repository
    
 notifications:
   email: false
