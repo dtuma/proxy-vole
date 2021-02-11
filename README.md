@@ -1,6 +1,6 @@
 # proxy-vole
 
-[![Build Status](https://travis-ci.org/akuhtz/proxy-vole.svg?branch=master)](https://travis-ci.org/akuhtz/proxy-vole)
+[![Build Status](https://github.com/akuhtz/proxy-vole/workflows/Java%20CI/badge.svg)](https://github.com/akuhtz/proxy-vole/actions)
 [![Maven Central](https://img.shields.io/maven-central/v/org.bidib.com.github.markusbernhardt/proxy-vole.svg?label=Maven%20Central&style=flat)](https://search.maven.org/artifact/org.bidib.com.github.markusbernhardt/proxy-vole)
 
 Proxy Vole is a Java library to auto detect the platform network proxy settings.  
