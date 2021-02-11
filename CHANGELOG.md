@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.11
+* Integrate WinProxySelector 
+
 ## 1.0.10
 * OSGI manifest: Delete hard definition of &lt;Bundle-SymbolicName&gt; 
 
