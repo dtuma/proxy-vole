@@ -30,7 +30,7 @@ public class UrlPacScriptSourceTest {
 	public void testHttpCharsetParserDefault() {
 		UrlPacScriptSource scriptSource = new UrlPacScriptSource("");
 		String charset = scriptSource.parseCharsetFromHeader("application/octet-stream;");
-		assertEquals("ISO-8859-1", charset);
+		assertEquals("UTF-8", charset);
 	}
 
 	/*************************************************************************

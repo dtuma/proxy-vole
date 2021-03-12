@@ -61,6 +61,13 @@ public class JavaxPacScriptParserTest {
         PacScriptParser p = new JavaxPacScriptParser(new UrlPacScriptSource(toUrl("test1.pac")));
         p.evaluate(TestUtil.HTTP_TEST_URI.toString(), "host1.unit-test.invalid");
     }
+    
+     @Test
+    public void testBomExecution() throws ProxyException, MalformedURLException {
+        PacScriptParser p = new JavaxPacScriptParser(new UrlPacScriptSource(toUrl("pacWithBom.pac")));
+       String result = p.evaluate(TestUtil.HTTP_TEST_URI.toString(), "host1.test");
+        Assertions.assertThat(result).contains("DIRECT");
+    }
 
     /*************************************************************************
      * Test method
