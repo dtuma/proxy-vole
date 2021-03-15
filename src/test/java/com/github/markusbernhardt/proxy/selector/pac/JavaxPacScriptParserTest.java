@@ -62,10 +62,19 @@ public class JavaxPacScriptParserTest {
         p.evaluate(TestUtil.HTTP_TEST_URI.toString(), "host1.unit-test.invalid");
     }
     
-     @Test
+     /*************************************************************************
+     * Tests that a pac script file that has the BOM character at the beginning is
+     * read and does not throw an exception.
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws MalformedURLException
+     *             on URL erros
+     ************************************************************************/
+    @Test
     public void testBomExecution() throws ProxyException, MalformedURLException {
         PacScriptParser p = new JavaxPacScriptParser(new UrlPacScriptSource(toUrl("pacWithBom.pac")));
-       String result = p.evaluate(TestUtil.HTTP_TEST_URI.toString(), "host1.test");
+        String result = p.evaluate(TestUtil.HTTP_TEST_URI.toString(), "host1.test");
         Assertions.assertThat(result).contains("DIRECT");
     }
 

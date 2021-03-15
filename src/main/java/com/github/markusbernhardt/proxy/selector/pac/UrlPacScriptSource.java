@@ -241,7 +241,7 @@ public class UrlPacScriptSource implements PacScriptSource {
 	 * 
 	 * @param contentType
 	 *            header field.
-	 * @return the extracted charset if set else a default charset.
+	 * @return the extracted charset if set or the default charset (UTF-8).
 	 ************************************************************************/
 
 	String parseCharsetFromHeader(String contentType) {
