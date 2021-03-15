@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.12
+* Use UTF-8 as default charset when reading pac script file.
+
 ## 1.0.11
 * Integrate WinProxySelector 
 
