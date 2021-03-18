@@ -23,7 +23,6 @@ public class PacProxySelector extends ProxySelector {
 
   // private static final String PAC_PROXY = "PROXY";
   private static final String PAC_SOCKS = "SOCKS";
-  private static final String PAC_DIRECT = "DIRECT";
 
   private PacScriptParser pacScriptParser;
 
@@ -31,7 +30,7 @@ public class PacProxySelector extends ProxySelector {
 
   /*************************************************************************
    * Constructor
-   * 
+   *
    * @param pacSource
    *          the source for the PAC file.
    ************************************************************************/
@@ -44,7 +43,7 @@ public class PacProxySelector extends ProxySelector {
   /*************************************************************************
    * Can be used to enable / disable the proxy selector. If disabled it will
    * return DIRECT for all urls.
-   * 
+   *
    * @param enable
    *          the new status to set.
    ************************************************************************/
@@ -55,7 +54,7 @@ public class PacProxySelector extends ProxySelector {
 
   /*************************************************************************
    * Checks if the selector is currently enabled.
-   * 
+   *
    * @return true if enabled else false.
    ************************************************************************/
 
@@ -65,7 +64,7 @@ public class PacProxySelector extends ProxySelector {
 
   /*************************************************************************
    * Selects one of the available PAC parser engines.
-   * 
+   *
    * @param pacSource
    *          to use as input.
    ************************************************************************/
@@ -81,7 +80,7 @@ public class PacProxySelector extends ProxySelector {
 
   /*************************************************************************
    * connectFailed
-   * 
+   *
    * @see java.net.ProxySelector#connectFailed(java.net.URI,
    *      java.net.SocketAddress, java.io.IOException)
    ************************************************************************/
@@ -92,31 +91,29 @@ public class PacProxySelector extends ProxySelector {
 
   /*************************************************************************
    * select
-   * 
+   *
    * @see java.net.ProxySelector#select(java.net.URI)
    ************************************************************************/
   @Override
   public List<Proxy> select(URI uri) {
-    if (uri == null) {
-      throw new IllegalArgumentException("URI must not be null.");
-    }
+    if (uri == null)
+		throw new IllegalArgumentException("URI must not be null.");
 
     // Fix for Java 1.6.16+ where we get a infinite loop because
     // URL.connect(Proxy.NO_PROXY) does not work as expected.
-    if (!enabled) {
-      return ProxyUtil.noProxyList();
-    }
+    if (!enabled)
+		return ProxyUtil.noProxyList();
 
     return findProxy(uri);
   }
 
   /*************************************************************************
    * Evaluation of the given URL with the PAC-file.
-   * 
+   *
    * Two cases can be handled here: DIRECT Fetch the object directly from the
    * content HTTP server denoted by its URL PROXY name:port Fetch the object via
    * the proxy HTTP server at the given location (name and port)
-   * 
+   *
    * @param uri
    *          <code>URI</code> to be evaluated.
    * @return <code>Proxy</code>-object list as result of the evaluation.
@@ -124,14 +121,12 @@ public class PacProxySelector extends ProxySelector {
 
   private List<Proxy> findProxy(URI uri) {
     try {
-      if (pacScriptParser == null) {
-        return ProxyUtil.noProxyList();
-      }
+      if (pacScriptParser == null)
+		return ProxyUtil.noProxyList();
       String parseResult = pacScriptParser.evaluate(uri.toString(), uri.getHost());
-      if (parseResult == null) {
-        return ProxyUtil.noProxyList();
-      }
-      List<Proxy> proxies = new ArrayList<Proxy>();
+      if (parseResult == null)
+		return ProxyUtil.noProxyList();
+      List<Proxy> proxies = new ArrayList<>();
       String[] proxyDefinitions = parseResult.split("[;]");
       for (String proxyDef : proxyDefinitions) {
         if (proxyDef.trim().length() > 0) {
@@ -148,7 +143,7 @@ public class PacProxySelector extends ProxySelector {
   /*************************************************************************
    * The proxy evaluator will return a proxy string. This method will take this
    * string and build a matching <code>Proxy</code> for it.
-   * 
+   *
    * @param pacResult
    *          the result from the PAC parser.
    * @return a Proxy
