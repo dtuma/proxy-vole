@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.13
+* Fixed issue #25: Use delight-rhino-sandbox:0.0.15. Thanks to gschnepp!
+
 ## 1.0.12
 * Use UTF-8 as default charset when reading pac script file.
 
