@@ -1,7 +1,26 @@
 # Change Log
 This file contains the change log.
 
-## Unreleased
+## 1.0.12
+* Use UTF-8 as default charset when reading pac script file.
+
+## 1.0.11
+* Integrate WinProxySelector 
+
+## 1.0.10
+* OSGI manifest: Delete hard definition of &lt;Bundle-SymbolicName&gt; 
+
+## 1.0.9
+* Use rhino-runtime instead of rhino.
+
+## 1.0.8
+* Fixed some sonarlint issues.
+
+## 1.0.7
+* Use rhino instead of nashorn again.
+* Fixed issue  #8: Added the generation of the OSGI manifest. 
+
+## 1.0.6
 * Fixed issue #74: Strings are not interpolated in logs
 * Fixed issue #10: IE fixed socks proxy parsed as http. Thanks to OnixGH!
 * Fixed issue #50: NullPointerException in Proxy-vole 1.0.5

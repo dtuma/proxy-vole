@@ -2,7 +2,6 @@ package com.github.markusbernhardt.proxy.selector.pac;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -14,6 +13,8 @@ import java.net.URL;
 
 import com.github.markusbernhardt.proxy.util.Logger;
 import com.github.markusbernhardt.proxy.util.Logger.LogLevel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /*****************************************************************************
  * Script source that will load the content of a PAC file from an webserver. The
@@ -95,7 +96,7 @@ public class UrlPacScriptSource implements PacScriptSource {
 			}
 			
 			StringBuilder result = new StringBuilder();
-			try (BufferedReader r = new BufferedReader(new FileReader(file))) {
+			try (BufferedReader r = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
 				String line;
 				while ((line = r.readLine()) != null) {
 					result.append(line).append("\n");
@@ -240,11 +241,11 @@ public class UrlPacScriptSource implements PacScriptSource {
 	 * 
 	 * @param contentType
 	 *            header field.
-	 * @return the extracted charset if set else a default charset.
+	 * @return the extracted charset if set or the default charset (UTF-8).
 	 ************************************************************************/
 
 	String parseCharsetFromHeader(String contentType) {
-		String result = "ISO-8859-1";
+		String result = "UTF-8";
 		if (contentType != null) {
 			String[] paramList = contentType.split(";");
 			for (String param : paramList) {

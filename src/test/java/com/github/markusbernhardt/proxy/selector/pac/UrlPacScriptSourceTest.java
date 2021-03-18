@@ -1,10 +1,8 @@
 package com.github.markusbernhardt.proxy.selector.pac;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-
-import com.github.markusbernhardt.proxy.selector.pac.UrlPacScriptSource;
+import org.junit.jupiter.api.Test;
 
 /*****************************************************************************
  * Tests for the UrlPacScriptSource.
@@ -21,8 +19,8 @@ public class UrlPacScriptSourceTest {
 	@Test
 	public void testHttpCharsetParser() {
 		UrlPacScriptSource scriptSource = new UrlPacScriptSource("");
-		String charset = scriptSource.parseCharsetFromHeader("application/x-ns-proxy-autoconfig; charset=UTF-8");
-		assertEquals("UTF-8", charset);
+		String charset = scriptSource.parseCharsetFromHeader("application/x-ns-proxy-autoconfig; charset=ISO-8859-1");
+		assertEquals("ISO-8859-1", charset);
 	}
 
 	/*************************************************************************
@@ -32,7 +30,7 @@ public class UrlPacScriptSourceTest {
 	public void testHttpCharsetParserDefault() {
 		UrlPacScriptSource scriptSource = new UrlPacScriptSource("");
 		String charset = scriptSource.parseCharsetFromHeader("application/octet-stream;");
-		assertEquals("ISO-8859-1", charset);
+		assertEquals("UTF-8", charset);
 	}
 
 	/*************************************************************************

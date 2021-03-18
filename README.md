@@ -1,7 +1,7 @@
 # proxy-vole
 
-[![Build Status](https://travis-ci.org/akuhtz/proxy-vole.svg?branch=master)](https://travis-ci.org/akuhtz/proxy-vole)
-[![Maven Central](https://img.shields.io/maven-central/v/org.bidib.com.github.markusbernhardt/proxy-vole.svg?label=Maven%20Central&style=for-the-badge)](https://search.maven.org/artifact/org.bidib.com.github.markusbernhardt/proxy-vole)
+[![Build Status](https://github.com/akuhtz/proxy-vole/workflows/Java%20CI/badge.svg)](https://github.com/akuhtz/proxy-vole/actions)
+[![Maven Central](https://img.shields.io/maven-central/v/org.bidib.com.github.markusbernhardt/proxy-vole.svg?label=Maven%20Central&style=flat)](https://search.maven.org/artifact/org.bidib.com.github.markusbernhardt/proxy-vole)
 
 Proxy Vole is a Java library to auto detect the platform network proxy settings.  
 Note: This library is a fork of the seemingly dead [proxy-vole](https://github.com/MarkusBernhardt/proxy-vole)
@@ -24,12 +24,12 @@ Add the dependency to your pom.xml
 <dependency>
   <groupId>org.bidib.com.github.markusbernhardt</groupId>
   <artifactId>proxy-vole</artifactId>
-  <version>1.0.9</version>
+  <version>1.0.12</version>
 </dependency>
 ```
 or to you gradle.build:
 ```
-compile 'org.bidib.com.github.markusbernhardt:proxy-vole:1.0.9'
+compile 'org.bidib.com.github.markusbernhardt:proxy-vole:1.0.12'
 ```
 
 ### Using the default strategy to find the settings
