@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 /**
  * This class represents a linked list of options for a DHCP message. Its
  * purpose is to ease option handling such as add, remove or change.
- *
+ * 
  * @author Markus Bernhardt, Copyright 2016
  * @author Jason Goldschmidt and Simon Frankenberger
  * @author Bernd Rosstauscher, Copyright 2009
@@ -83,7 +83,7 @@ public class DHCPOptions {
 	public static final int OPTION_DHCP_REBIND_TIME = 59;
 	public static final int OPTION_DHCP_CLASS_IDENTIFIER = 60;
 	public static final int OPTION_DHCP_CLIENT_IDENTIFIER = 61;
-
+	
 	public static final int OPTION_PROXY_AUTODISCOVERY = 252;
 
 	/**
@@ -115,29 +115,29 @@ public class DHCPOptions {
 
 	/**
 	 * Removes option with specified bytecode
-	 *
+	 * 
 	 * @param entryCode
 	 *            The code of option to be removed
 	 */
 
 	public void removeOption(byte entryCode) {
-		this.optionsTable.remove(entryCode);
+		this.optionsTable.remove(new Byte(entryCode));
 	}
 
 	/**
 	 * Returns true if option code is set in list; false otherwise
-	 *
+	 * 
 	 * @param entryCode
 	 *            The node's option code
 	 * @return true if option is set, otherwise false
 	 */
 	public boolean contains(byte entryCode) {
-		return this.optionsTable.containsKey(entryCode);
+		return this.optionsTable.containsKey(new Byte(entryCode));
 	}
 
 	/**
 	 * Determines if list is empty
-	 *
+	 * 
 	 * @return true if there are no options set, otherwise false
 	 */
 	public boolean isEmpty() {
@@ -146,7 +146,7 @@ public class DHCPOptions {
 
 	/**
 	 * Fetches value of option by its option code
-	 *
+	 * 
 	 * @param entryCode
 	 *            The node's option code
 	 * @return byte array containing the value of option entryCode. null is
@@ -156,13 +156,14 @@ public class DHCPOptions {
 		if (this.contains(entryCode)) {
 			DHCPOptionsEntry ent = this.optionsTable.get(entryCode);
 			return ent.content;
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * Changes an existing option to new value
-	 *
+	 * 
 	 * @param entryCode
 	 *            The node's option code
 	 * @param value
@@ -170,12 +171,12 @@ public class DHCPOptions {
 	 */
 	public void setOption(byte entryCode, byte value[]) {
 		DHCPOptionsEntry opt = new DHCPOptionsEntry(entryCode, (byte) value.length, value);
-		this.optionsTable.put(entryCode, opt);
+		this.optionsTable.put(new Byte(entryCode), opt);
 	}
 
 	/**
 	 * Returns the option value of a specified option code in a byte array
-	 *
+	 * 
 	 * @param length
 	 *            Length of option content
 	 * @param position
@@ -194,7 +195,7 @@ public class DHCPOptions {
 
 	/**
 	 * Converts an options byte array to a linked list
-	 *
+	 * 
 	 * @param optionsArray
 	 *            The byte array representation of the options list
 	 */
@@ -216,7 +217,7 @@ public class DHCPOptions {
 
 	/**
 	 * Converts a linked options list to a byte array
-	 *
+	 * 
 	 * @return array representation of optionsTable
 	 */
 	// todo provide overflow return
@@ -237,7 +238,7 @@ public class DHCPOptions {
 				options[position++] = entry.getValue().content[i];
 			}
 		}
-
+		
 		options[position] = (byte) 255; // insert end option
 		return options;
 	}
