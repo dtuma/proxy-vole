@@ -2,9 +2,10 @@ package com.github.markusbernhardt.proxy;
 
 import java.awt.GraphicsEnvironment;
 import java.net.ProxySelector;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.helpers.MessageFormatter;
 
 import com.github.markusbernhardt.proxy.search.browser.firefox.FirefoxProxySearchStrategy;
 import com.github.markusbernhardt.proxy.search.browser.ie.IEProxySearchStrategy;
@@ -296,11 +297,17 @@ public class ProxySearch implements ProxySearchStrategy {
 
             @Override
             public void log(Class<?> clazz, LogLevel loglevel, String msg, Object... params) {
-                System.out.println(MessageFormat.format(msg, params));
+                if (params != null) {
+                    System.out.println(MessageFormatter.arrayFormat(msg, params).getMessage());
+                }
+                else {
+                    System.out.println(msg);
+                }
             }
 
         });
-        ps.getProxySelector();
+        ProxySelector proxySelector = ps.getProxySelector();
+        System.out.println("proxySelector: " + proxySelector);
     }
 
 }
