@@ -24,12 +24,12 @@ Add the dependency to your pom.xml
 <dependency>
   <groupId>org.bidib.com.github.markusbernhardt</groupId>
   <artifactId>proxy-vole</artifactId>
-  <version>1.0.13</version>
+  <version>1.0.14</version>
 </dependency>
 ```
 or to you gradle.build:
 ```
-compile 'org.bidib.com.github.markusbernhardt:proxy-vole:1.0.13'
+compile 'org.bidib.com.github.markusbernhardt:proxy-vole:1.0.14'
 ```
 
 ### Using the default strategy to find the settings
@@ -139,10 +139,10 @@ System.setProperty(PacScriptMethods.OVERRIDE_LOCAL_IP, "123.123.123.123");
 ```
 
 ### Proxy Vole Tester
-There is also a small GUI to test the different search strategies. Simply start the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/proxy-vole/1.0.5/proxy-vole-1.0.5-jar-with-dependencies.jar) 
+There is also a small GUI to test the different search strategies. Simply start the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=org/bidib/com/github/markusbernhardt/proxy-vole/1.0.14/proxy-vole-1.0.14-jar-with-dependencies.jar) 
 or directly the class `com.github.markusbernhardt.proxy.ui.ProxyTester`.
 
-![Screenshot](https://raw.githubusercontent.com/MarkusBernhardt/proxy-vole/master/src/site/screenshots/proxy-vole-tester.png "Proxy Vole Tester")
+![Screenshot](https://raw.githubusercontent.com/akuhtz/proxy-vole/master/src/site/screenshots/proxy-vole-tester.png "Proxy Vole Tester")
 
 ## Motivation
 Today more and more applications try to take direct advantage of Internet connectivity and web services to bring web content

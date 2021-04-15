@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.14
+* Fixed issue #27: Revert integrate WinProxySelector (since 1.0.11) because of endless loop.
+
 ## 1.0.13
 * Fixed issue #25: Use delight-rhino-sandbox:0.0.15. Thanks to gschnepp!
 
