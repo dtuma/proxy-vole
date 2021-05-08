@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,14 +20,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.slf4j.helpers.MessageFormatter;
+
 import com.github.markusbernhardt.proxy.ProxySearch;
 import com.github.markusbernhardt.proxy.ProxySearch.Strategy;
 import com.github.markusbernhardt.proxy.util.Logger;
 import com.github.markusbernhardt.proxy.util.Logger.LogLevel;
 
 /*****************************************************************************
- * Small test application that allows you to select a proxy search strategy and
- * then validate URLs against it.
+ * Small test application that allows you to select a proxy search strategy and then validate URLs against it.
  * 
  * @author Markus Bernhardt, Copyright 2016
  * @author Bernd Rosstauscher, Copyright 2009
@@ -36,142 +36,150 @@ import com.github.markusbernhardt.proxy.util.Logger.LogLevel;
 
 public class ProxyTester extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private JComboBox<ProxySearch.Strategy> modes;
-	private JButton testButton;
-	private JTextField urlField;
+    private JComboBox<ProxySearch.Strategy> modes;
 
-	private JTextArea logArea;
+    private JButton testButton;
 
-	/*************************************************************************
-	 * Constructor
-	 ************************************************************************/
+    private JTextField urlField;
 
-	public ProxyTester() {
-		super();
-		init();
-	}
+    private JTextArea logArea;
 
-	/*************************************************************************
-	 * Initializes the GUI.
-	 ************************************************************************/
+    /*************************************************************************
+     * Constructor
+     ************************************************************************/
 
-	private void init() {
-		setTitle("Proxy Vole Tester");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public ProxyTester() {
+        super();
+        init();
+    }
 
-		JPanel p = new JPanel();
+    /*************************************************************************
+     * Initializes the GUI.
+     ************************************************************************/
 
-		p.add(new JLabel("Mode:"));
+    private void init() {
+        setTitle("Proxy Vole Tester");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.modes = new JComboBox<ProxySearch.Strategy>(ProxySearch.Strategy.values());
-		p.add(this.modes);
+        JPanel p = new JPanel();
 
-		p.add(new JLabel("URL:"));
-		this.urlField = new JTextField(30);
-		this.urlField.setText("http://www.google.com/");
-		p.add(this.urlField);
+        p.add(new JLabel("Mode:"));
 
-		this.testButton = new JButton("Test");
-		this.testButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				testUrl();
-			}
-		});
-		p.add(this.testButton);
+        this.modes = new JComboBox<ProxySearch.Strategy>(ProxySearch.Strategy.values());
+        p.add(this.modes);
 
-		this.logArea = new JTextArea(5, 50);
-		JPanel contenPane = new JPanel(new BorderLayout());
-		contenPane.add(p, BorderLayout.NORTH);
-		contenPane.add(new JScrollPane(this.logArea), BorderLayout.CENTER);
-		setContentPane(contenPane);
+        p.add(new JLabel("URL:"));
+        this.urlField = new JTextField(30);
+        this.urlField.setText("http://www.google.com/");
+        p.add(this.urlField);
 
-		pack();
-		setLocationRelativeTo(null);
-		installLogger();
-	}
+        this.testButton = new JButton("Test");
+        this.testButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                testUrl();
+            }
+        });
+        p.add(this.testButton);
 
-	/*************************************************************************
-	 * Install the framework logger.
-	 ************************************************************************/
+        this.logArea = new JTextArea(5, 50);
+        JPanel contenPane = new JPanel(new BorderLayout());
+        contenPane.add(p, BorderLayout.NORTH);
+        contenPane.add(new JScrollPane(this.logArea), BorderLayout.CENTER);
+        setContentPane(contenPane);
 
-	private void installLogger() {
-		Logger.setBackend(new Logger.LogBackEnd() {
-			public void log(Class<?> clazz, LogLevel loglevel, String msg, Object... params) {
-				ProxyTester.this.logArea.append(loglevel + "\t" + MessageFormat.format(msg, params) + "\n");
-			}
-		});
-	}
+        pack();
+        setLocationRelativeTo(null);
+        installLogger();
+    }
 
-	/*************************************************************************
-	 * Test the given URL with the given Proxy Search.
-	 ************************************************************************/
+    /*************************************************************************
+     * Install the framework logger.
+     ************************************************************************/
 
-	protected void testUrl() {
-		try {
-			if (this.urlField.getText().trim().length() == 0) {
-				ProxyTester.this.logArea.append("ERROR\tPlease enter an URL first.\n");
-				return;
-			}
+    private void installLogger() {
+        Logger.setBackend(new Logger.LogBackEnd() {
+            @Override
+            public void log(Class<?> clazz, LogLevel loglevel, String msg, Object... params) {
+                ProxyTester.this.logArea
+                    .append(loglevel + "\t" + MessageFormatter.format(msg, params).getMessage() + "\n");
+            }
+        });
+    }
 
-			this.logArea.setText("");
+    /*************************************************************************
+     * Test the given URL with the given Proxy Search.
+     ************************************************************************/
 
-			Strategy pss = (Strategy) this.modes.getSelectedItem();
-			ProxySearch ps = new ProxySearch();
-			ps.addStrategy(pss);
-			ProxySelector psel = ps.getProxySelector();
-			if (psel == null) {
-				ProxyTester.this.logArea.append("ERROR\tNo proxy settings available for this mode.\n");
-				return;
-			}
-			ProxySelector.setDefault(psel);
+    protected void testUrl() {
+        try {
+            if (this.urlField.getText().trim().length() == 0) {
+                ProxyTester.this.logArea.append("ERROR\tPlease enter an URL first.\n");
+                return;
+            }
 
-			URL url = new URL(this.urlField.getText().trim());
-			List<Proxy> result = psel.select(url.toURI());
-			if (result == null || result.size() == 0) {
-				ProxyTester.this.logArea.append("INFO\tNo proxy found for this url.\n");
-				return;
-			}
+            this.logArea.setText("");
 
-			ProxyTester.this.logArea.append("INFO\tProxy Settings found using " + pss + " strategy.\n");
-			ProxyTester.this.logArea.append("INFO\tProxy used for URL is: " + result.get(0) + "\n");
+            Strategy pss = (Strategy) this.modes.getSelectedItem();
+            ProxySearch ps = new ProxySearch();
+            ps.addStrategy(pss);
+            ProxySelector psel = ps.getProxySelector();
+            if (psel == null) {
+                ProxyTester.this.logArea.append("ERROR\tNo proxy settings available for this mode.\n");
+                return;
+            }
+            ProxySelector.setDefault(psel);
 
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Error:" + e.getMessage(), "Error checking URL.",
-			        JOptionPane.ERROR_MESSAGE);
-		}
+            URL url = new URL(this.urlField.getText().trim());
+            List<Proxy> result = psel.select(url.toURI());
+            if (result == null || result.size() == 0) {
+                ProxyTester.this.logArea.append("INFO\tNo proxy found for this url.\n");
+                return;
+            }
 
-	}
+            ProxyTester.this.logArea.append("INFO\tProxy Settings found using " + pss + " strategy.\n");
+            ProxyTester.this.logArea.append("INFO\tProxy used for URL is: " + result.get(0) + "\n");
 
-	/*************************************************************************
-	 * Main entry point for the application.
-	 * 
-	 * @param args
-	 *            command line arguments.
-	 ************************************************************************/
+        }
+        catch (Exception e) {
+            JOptionPane
+                .showMessageDialog(this, "Error:" + e.getMessage(), "Error checking URL.", JOptionPane.ERROR_MESSAGE);
+        }
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				setLookAndFeel();
+    }
 
-				ProxyTester mainFrame = new ProxyTester();
-				mainFrame.setVisible(true);
-			}
+    /*************************************************************************
+     * Main entry point for the application.
+     * 
+     * @param args
+     *            command line arguments.
+     ************************************************************************/
 
-		});
-	}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                setLookAndFeel();
 
-	/*************************************************************************
-	 * Change the L&F to the system default.
-	 ************************************************************************/
+                ProxyTester mainFrame = new ProxyTester();
+                mainFrame.setVisible(true);
+            }
 
-	private static void setLookAndFeel() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			// Use default
-		}
-	}
+        });
+    }
+
+    /*************************************************************************
+     * Change the L&F to the system default.
+     ************************************************************************/
+
+    private static void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) {
+            // Use default
+        }
+    }
 }
