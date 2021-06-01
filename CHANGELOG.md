@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.15
+* Fixed issue #32: Add new property "proxy-vole.xml.factory.feature.secure.processing" to activate the FEATURE_SECURE_PROCESSING on DocumentBuilderFactory.
+
 ## 1.0.14
 * Fixed issue #27: Revert integrate WinProxySelector (since 1.0.11) because of endless loop.
 
