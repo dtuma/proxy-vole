@@ -271,8 +271,16 @@ public final class PListParser {
 	private static Dict parse(InputSource input) throws XmlParseException {
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-			documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-			documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+			if(Boolean.getBoolean( PlatformUtil.XML_FEATURE_SECURE_PROCESSING ))
+			{
+			    documentBuilderFactory.setFeature( XMLConstants.FEATURE_SECURE_PROCESSING, true );
+			}
+			else
+			{
+			    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+			    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+			}
+			
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			documentBuilder.setEntityResolver(new EmptyXMLResolver());
 			Document doc = documentBuilder.parse(input);
