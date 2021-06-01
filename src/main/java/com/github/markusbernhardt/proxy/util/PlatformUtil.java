@@ -12,6 +12,7 @@ import com.github.markusbernhardt.proxy.util.Logger.LogLevel;
 public class PlatformUtil {
 
 	public static final String OVERRIDE_HOME_DIR = "com.btr.proxy.user.home";
+	public static final String XML_FEATURE_SECURE_PROCESSING = "proxy-vole.xml.factory.feature.secure.processing";
 
 	public enum Platform {
 		WIN, LINUX, MAC_OS, SOLARIS, OTHER
