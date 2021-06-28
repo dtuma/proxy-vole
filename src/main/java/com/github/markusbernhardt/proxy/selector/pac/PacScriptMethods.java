@@ -36,7 +36,7 @@ public class PacScriptMethods implements ScriptMethods {
 
 	public static final String OVERRIDE_LOCAL_IP = "com.btr.proxy.pac.overrideLocalIP";
 
-        //Cache IP addresses when found in cqse myIpAddress() is called too often
+        // Cache IP addresses when found in case myIpAddress() is called too often
         private String ipAddress = null;
         private String ipAddressEx = null;
         
