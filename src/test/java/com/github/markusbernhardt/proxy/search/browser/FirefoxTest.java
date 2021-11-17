@@ -167,4 +167,21 @@ public class FirefoxTest {
         assertEquals(Proxy.NO_PROXY, result.get(0));
     }
 
+    /*************************************************************************
+     * Test method
+     * 
+     * @throws ProxyException
+     *             on proxy detection error.
+     * @throws URISyntaxException
+     *             on invalid URL syntax.
+     ************************************************************************/
+    @Test
+    public void testManualHttpFF67() throws ProxyException, URISyntaxException {
+        TestUtil.setTestDataFolder("ff67_manual");
+
+        ProxySelector ps = new FirefoxProxySearchStrategy().getProxySelector();
+
+        List<Proxy> result = ps.select(TestUtil.HTTP_TEST_URI);
+        assertEquals(TestUtil.HTTP_TEST_PROXY, result.get(0));
+    }
 }

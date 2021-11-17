@@ -1,6 +1,10 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.16
+* Fixed issue #35: NullPointerException in OsxProxySearchStrategy.getProxySelector
+* Fixed issue #36: FirefoxProxySearchStrategy incorrectly detects active user profile
+
 ## 1.0.15
 * Fixed issue #32: Add new property "proxy-vole.xml.factory.feature.secure.processing" to activate the FEATURE_SECURE_PROCESSING on DocumentBuilderFactory.
 
