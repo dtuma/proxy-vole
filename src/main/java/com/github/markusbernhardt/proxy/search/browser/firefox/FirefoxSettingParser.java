@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
@@ -98,20 +100,24 @@ class FirefoxSettingParser {
         if (profilesIniFile.exists()) {
             Ini profilesIni = new Ini(profilesIniFile);
 
-            String keyFF67 =
-                profilesIni.keySet().stream().filter(s -> s.startsWith("Install")).findFirst().orElse(null);
-            if (keyFF67 != null) {
-                Logger
-                    .log(getClass(), LogLevel.DEBUG, "Firefox settings for F67+ detected, section key is: {}", keyFF67);
-                Section section = profilesIni.get(keyFF67);
+            final List<String> keysFF67 =
+                profilesIni.keySet().stream().filter(s -> s.startsWith("Install")).collect(Collectors.toList());
+            if (!keysFF67.isEmpty()) {
+                Logger.log(getClass(), LogLevel.DEBUG, "Firefox settings for FF67+ detected.");
 
-                if ("1".equals(section.get("Locked"))) {
-                    File profileFolder =
-                        new File(profilesIniFile.getParentFile().getAbsolutePath(), section.get("Default"));
-                    Logger.log(getClass(), LogLevel.DEBUG, "Firefox settings folder is {}", profileFolder);
+                for (String keyFF67 : keysFF67) {
 
-                    File settingsFile = new File(profileFolder, "prefs.js");
-                    return settingsFile;
+                    Logger.log(getClass(), LogLevel.DEBUG, "Current FF67+ section key is: {}", keysFF67);
+                    Section section = profilesIni.get(keyFF67);
+
+                    if ("1".equals(section.get("Locked"))) {
+                        File profileFolder =
+                            new File(profilesIniFile.getParentFile().getAbsolutePath(), section.get("Default"));
+                        Logger.log(getClass(), LogLevel.DEBUG, "Firefox settings folder is {}", profileFolder);
+
+                        File settingsFile = new File(profileFolder, "prefs.js");
+                        return settingsFile;
+                    }
                 }
             }
             else {
