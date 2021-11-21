@@ -27,7 +27,8 @@
 	<junit-jupiter.version>5.7.2</junit-jupiter.version>
 	<assertj.version>3.19.0</assertj.version>
 	<system-stubs-jupiter.version>1.2.0</system-stubs-jupiter.version>
-	<slf4j.version>1.7.30</slf4j.version>
+	<slf4j.version>1.7.32</slf4j.version>
+    <logback.version>1.2.6</logback.version>
   </properties>
 
   <scm>
@@ -95,9 +96,9 @@
 		<scope>test</scope>
 	</dependency>
     <dependency>
-      	<groupId>org.slf4j</groupId>
-      	<artifactId>slf4j-simple</artifactId>
-		<scope>test</scope>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <scope>test</scope>
     </dependency>
 
 	<dependency>
@@ -140,9 +141,9 @@
         <version>${slf4j.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
       </dependency>
 
       <!-- test dependencies -->

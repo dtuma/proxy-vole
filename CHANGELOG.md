@@ -1,6 +1,9 @@
 # Change Log
 This file contains the change log.
 
+## 1.0.17
+* Fixed issue #16: Make ProxySearch a bit more extendable
+
 ## 1.0.16
 * Fixed issue #35: NullPointerException in OsxProxySearchStrategy.getProxySelector
 * Fixed issue #36: FirefoxProxySearchStrategy incorrectly detects active user profile

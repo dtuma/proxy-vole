@@ -4,6 +4,7 @@ import java.awt.GraphicsEnvironment;
 import java.net.ProxySelector;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.slf4j.helpers.MessageFormatter;
 
@@ -168,6 +169,88 @@ public class ProxySearch implements ProxySearchStrategy {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown strategy code!");
+        }
+    }
+
+    /*************************************************************************
+     * Adds an search strategy to the list of proxy searches strategies.
+     * 
+     * @param customStrategy
+     *            the custom search strategy to add.
+     * @param addAsFirst
+     *            {@code true}: add the custom strategy as first strategy, {@code false} append as last strategy
+     ************************************************************************/
+
+    public void addStrategy(ProxySearchStrategy customStrategy, boolean addAsFirst) {
+        if (customStrategy == null) {
+            throw new IllegalArgumentException("No custom search strategy provided!");
+        }
+
+        if (addAsFirst) {
+            this.strategies.add(0, customStrategy);
+        }
+        else {
+            this.strategies.add(customStrategy);
+        }
+    }
+
+    /*************************************************************************
+     * Removes a search strategy from the list of proxy searches strategies.
+     * 
+     * @param strategy
+     *            the search strategy to remove.
+     ************************************************************************/
+    public void removeStrategy(Strategy strategy) {
+        switch (strategy) {
+            case OS_DEFAULT:
+                removeStrategy(pss -> pss instanceof DesktopProxySearchStrategy);
+                break;
+            case WPAD:
+                removeStrategy(pss -> pss instanceof WpadProxySearchStrategy);
+                break;
+            case BROWSER:
+                switch (PlatformUtil.getDefaultBrowser()) {
+                    case IE:
+                        removeStrategy(pss -> pss instanceof IEProxySearchStrategy);
+                        break;
+                    case FIREFOX:
+                        removeStrategy(pss -> pss instanceof FirefoxProxySearchStrategy);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case IE:
+                removeStrategy(pss -> pss instanceof IEProxySearchStrategy);
+                break;
+            case FIREFOX:
+                removeStrategy(pss -> pss instanceof FirefoxProxySearchStrategy);
+                break;
+            case ENV_VAR:
+                removeStrategy(pss -> pss instanceof EnvProxySearchStrategy);
+                break;
+            case WIN:
+                removeStrategy(pss -> pss instanceof WinProxySearchStrategy);
+                break;
+            case KDE:
+                removeStrategy(pss -> pss instanceof KdeProxySearchStrategy);
+                break;
+            case GNOME:
+                removeStrategy(pss -> pss instanceof GnomeDConfProxySearchStrategy);
+                removeStrategy(pss -> pss instanceof GnomeProxySearchStrategy);
+                break;
+            case JAVA:
+                removeStrategy(pss -> pss instanceof JavaProxySearchStrategy);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void removeStrategy(Predicate<ProxySearchStrategy> filter) {
+        ProxySearchStrategy proxySeachStrategy = this.strategies.stream().filter(filter).findFirst().orElse(null);
+        if (proxySeachStrategy != null) {
+            this.strategies.remove(proxySeachStrategy);
         }
     }
 
