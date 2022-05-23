@@ -378,7 +378,7 @@ public class ProxySearch implements ProxySearchStrategy {
 
             @Override
             public void log(Class<?> clazz, LogLevel loglevel, String msg, Object... params) {
-                System.out.println(MessageFormatter.format(msg, params));
+                System.out.println(MessageFormatter.format(msg, params).getMessage());
             }
 
         });

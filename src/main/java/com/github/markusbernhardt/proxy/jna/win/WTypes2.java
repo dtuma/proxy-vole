@@ -1,9 +1,7 @@
 package com.github.markusbernhardt.proxy.jna.win;
 
-import com.github.markusbernhardt.proxy.util.Logger;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WTypes;
 import com.sun.jna.ptr.ByReference;
 
@@ -25,8 +23,7 @@ public class WTypes2 {
      *
      * <p>
      * LPWSTR is itself a pointer, so a pointer to an LPWSTR is really a
-     * pointer-to-pointer. This class hides this complexity and also takes care
-     * of memory disposal.
+     * pointer-to-pointer.
      *
      * <p>
      * The class is useful where the Windows function <i>returns</i> a result
@@ -41,8 +38,8 @@ public class WTypes2 {
 
         public LPWSTRByReference() {
             super(Native.POINTER_SIZE);
-			// memory cleanup
-			getPointer().setPointer(0, null);
+            // memory cleanup
+            getPointer().setPointer(0, null);
         }
 
         /**
@@ -67,41 +64,17 @@ public class WTypes2 {
          * @return LPWSTR from this pointer
          */
         public String getString() {
-            return getValue() == null ? null : getValue().getValue();
+            WTypes.LPWSTR h = getValue();
+            return h == null ? null : h.getValue();
         }
 
-        private Pointer getPointerToString() {
-            return getPointer().getPointer(0);
+        public Pointer getPointerToString() {
+			Pointer p = getPointer();
+			if (p == null) {
+				return null;
+			}
+            return p.getPointer(0);
         }
-
-        /**
-         * Memory disposal.
-         *
-         * @throws Throwable Something went wrong when cleaning up the memory.
-         */
-        @Override
-        protected void finalize() throws Throwable {
-            try {
-                // Free the memory occupied by the string returned
-                // from the Win32 function.
-                Pointer strPointer = getPointerToString();
-                if (strPointer != null) {
-                    Pointer result = Kernel32.INSTANCE.GlobalFree(strPointer);
-                    if (result != null) {
-                        // The call to GlobalFree has failed. This should never
-                        // happen. If it really does happen, there isn't much we 
-                        // can do about it other than logging it.
-                        Logger.log(getClass(), Logger.LogLevel.ERROR,
-                                "Windows function GlobalFree failed while freeing memory for {} object", 
-                                getClass().getSimpleName());
-                    }
-                }
-            } finally {
-                // This will free the memory of the pointer-to-pointer
-                super.finalize();
-            }
-        }
-
     }
 
 }

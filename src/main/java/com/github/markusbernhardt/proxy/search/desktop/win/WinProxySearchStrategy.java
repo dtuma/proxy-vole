@@ -4,13 +4,10 @@ import java.net.ProxySelector;
 import java.util.Properties;
 
 import com.github.markusbernhardt.proxy.jna.win.WinHttp;
-import com.github.markusbernhardt.proxy.jna.win.WinHttpHelpers;
 import com.github.markusbernhardt.proxy.jna.win.WinHttpProxyInfo;
 import com.github.markusbernhardt.proxy.selector.misc.ProtocolDispatchSelector;
 import com.github.markusbernhardt.proxy.util.Logger;
 import com.github.markusbernhardt.proxy.util.Logger.LogLevel;
-import com.github.markusbernhardt.proxy.util.ProxyException;
-
 import com.github.markusbernhardt.proxy.util.ProxyException;
 
 /*****************************************************************************
@@ -96,7 +93,7 @@ public class WinProxySearchStrategy extends CommonWindowsSearchStrategy {
 
 		// Retrieve the Win proxy configuration.
 		WinHttpProxyInfo winHttpProxyInfo = new WinHttpProxyInfo();
-		boolean result = WinHttpHelpers.WINHTTP_INSTANCE.WinHttpGetDefaultProxyConfiguration(winHttpProxyInfo);
+		boolean result = WinHttp.INSTANCE.WinHttpGetDefaultProxyConfiguration(winHttpProxyInfo);
 		if (!result) {
 			return null;
 		}
@@ -111,7 +108,7 @@ public class WinProxySearchStrategy extends CommonWindowsSearchStrategy {
 	/*************************************************************************
 	 * Parses the proxy settings into an ProxySelector.
 	 *
-	 * @param winProxySettings
+	 * @param winProxyConfig
 	 *            the settings to use.
 	 * @return a ProxySelector, null if no settings are set.
 	 * @throws ProxyException

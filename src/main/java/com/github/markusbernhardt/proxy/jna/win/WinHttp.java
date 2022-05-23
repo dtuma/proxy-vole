@@ -12,6 +12,9 @@ import com.sun.jna.win32.W32APIOptions;
  * @author Markus Bernhardt, Copyright 2016
  */
 public interface WinHttp extends StdCallLibrary {
+
+	WinHttp INSTANCE = Native.load("winhttp", WinHttp.class, W32APIOptions.UNICODE_OPTIONS);
+
 	/**
 	 * The WinHttpDetectAutoProxyConfigUrl function finds the URL for the Proxy
 	 * Auto-Configuration (PAC) file. This function reports the URL of the PAC
