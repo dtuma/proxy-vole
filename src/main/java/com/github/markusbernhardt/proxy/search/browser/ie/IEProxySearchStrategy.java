@@ -3,6 +3,7 @@ package com.github.markusbernhardt.proxy.search.browser.ie;
 import java.net.ProxySelector;
 import java.util.Properties;
 
+import com.github.markusbernhardt.proxy.jna.win.WinHttp;
 import com.github.markusbernhardt.proxy.jna.win.WinHttpCurrentUserIEProxyConfig;
 import com.github.markusbernhardt.proxy.jna.win.WinHttpHelpers;
 import com.github.markusbernhardt.proxy.search.desktop.win.CommonWindowsSearchStrategy;
@@ -75,7 +76,7 @@ public class IEProxySearchStrategy extends CommonWindowsSearchStrategy {
 
 		// Retrieve the IE proxy configuration.
 		WinHttpCurrentUserIEProxyConfig winHttpCurrentUserIeProxyConfig = new WinHttpCurrentUserIEProxyConfig();
-		boolean result = WinHttpHelpers.WINHTTP_INSTANCE.WinHttpGetIEProxyConfigForCurrentUser(winHttpCurrentUserIeProxyConfig);
+		boolean result = WinHttp.INSTANCE.WinHttpGetIEProxyConfigForCurrentUser(winHttpCurrentUserIeProxyConfig);
 		if (!result) {
 			return null;
 		}
@@ -94,8 +95,8 @@ public class IEProxySearchStrategy extends CommonWindowsSearchStrategy {
 	/*************************************************************************
 	 * Parses the settings and creates an PAC ProxySelector for it.
 	 * 
-	 * @param ieSettings
-	 *            the IE settings to use.
+	 * @param ieProxyConfig
+	 *            the IE proxy config to use.
 	 * @return a PacProxySelector the selector or null.
 	 ************************************************************************/
 
@@ -130,8 +131,8 @@ public class IEProxySearchStrategy extends CommonWindowsSearchStrategy {
 	/*************************************************************************
 	 * Parses the proxy settings into an ProxySelector.
 	 * 
-	 * @param ieSettings
-	 *            the settings to use.
+	 * @param ieProxyConfig
+	 *            the IE proxy config to use.
 	 * @return a ProxySelector, null if no settings are set.
 	 * @throws ProxyException
 	 *             on error.
