@@ -2,8 +2,10 @@ package com.github.markusbernhardt.proxy.jna.win;
 
 import com.github.markusbernhardt.proxy.util.Logger;
 import com.sun.jna.LastErrorException;
+import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32Util;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.ptr.PointerByReference;
 
 /**
  * Static helper methods for Windows {@code WinHttp} functions.
@@ -36,13 +38,14 @@ public class WinHttpHelpers {
      */
     public static String detectAutoProxyConfigUrl(WinDef.DWORD dwAutoDetectFlags) {
 
-        WTypes2.LPWSTRByReference ppwszAutoConfigUrl = new WTypes2.LPWSTRByReference();
+        PointerByReference ppwszAutoConfigUrl = new PointerByReference();
         boolean result = false;
         try {
             result = WinHttp.INSTANCE.WinHttpDetectAutoProxyConfigUrl(dwAutoDetectFlags, ppwszAutoConfigUrl);
 
             if (result) {
-                return ppwszAutoConfigUrl.getString();
+                Pointer h = ppwszAutoConfigUrl.getValue();
+                return h == null ? null : h.getWideString(0);
             } else {
                 return null;
             }
@@ -66,8 +69,8 @@ public class WinHttpHelpers {
             return null;
         }
         finally {
-            if (ppwszAutoConfigUrl.getPointerToString() != null) {
-                Kernel32Util.freeGlobalMemory(ppwszAutoConfigUrl.getPointerToString());
+            if (ppwszAutoConfigUrl.getValue() != null) {
+                Kernel32Util.freeGlobalMemory(ppwszAutoConfigUrl.getValue());
             }
         }
     }

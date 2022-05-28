@@ -3,6 +3,7 @@ package com.github.markusbernhardt.proxy.jna.win;
 import com.sun.jna.LastErrorException;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.ptr.PointerByReference;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIOptions;
 
@@ -37,7 +38,7 @@ public interface WinHttp extends StdCallLibrary {
 	 */
 	boolean WinHttpDetectAutoProxyConfigUrl(
                 WinDef.DWORD dwAutoDetectFlags, 
-            WTypes2.LPWSTRByReference ppwszAutoConfigUrl) throws LastErrorException;
+            PointerByReference ppwszAutoConfigUrl) throws LastErrorException;
 
 	/**
 	 * The WinHttpGetDefaultProxyConfiguration function retrieves the default
