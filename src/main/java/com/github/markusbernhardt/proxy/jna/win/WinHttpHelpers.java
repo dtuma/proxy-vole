@@ -3,7 +3,7 @@ package com.github.markusbernhardt.proxy.jna.win;
 import com.github.markusbernhardt.proxy.util.Logger;
 import com.sun.jna.LastErrorException;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.Kernel32Util;
+import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -69,8 +69,19 @@ public class WinHttpHelpers {
             return null;
         }
         finally {
-            if (ppwszAutoConfigUrl.getValue() != null) {
-                Kernel32Util.freeGlobalMemory(ppwszAutoConfigUrl.getValue());
+            freeGlobalMemory(ppwszAutoConfigUrl.getValue());
+        }
+    }
+
+    public static void freeGlobalMemory(Pointer p) {
+        if (p != null) {
+            Pointer free = Kernel32.INSTANCE.GlobalFree(p);
+            if (free != null) {
+                // The call to GlobalFree has failed. This should never
+                // happen. If it really does happen, there isn't much we
+                // can do about it other than logging it.
+                Logger.log(WinHttpHelpers.class, Logger.LogLevel.ERROR,
+                    "Windows function GlobalFree failed while freeing memory");
             }
         }
     }
