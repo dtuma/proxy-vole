@@ -46,7 +46,9 @@ public interface WinHttp extends StdCallLibrary {
 	 * 
 	 * @param pProxyInfo
 	 *            A pointer to a variable of type WINHTTP_PROXY_INFO that
-	 *            receives the default proxy configuration.
+	 *            receives the default proxy configuration. You must free
+         *            the strings pointed to by pProxyInfo.lpszProxy and
+         *            pProxyInfo.lpszProxyBypass using the GlobalFree function.
 	 * @return {@code true} if successful; otherwise, {@code false}.
 	 */
 	boolean WinHttpGetDefaultProxyConfiguration(WinHttpProxyInfo pProxyInfo);
@@ -60,6 +62,9 @@ public interface WinHttp extends StdCallLibrary {
 	 *            structure. On output, the structure contains the Internet
 	 *            Explorer proxy settings for the current active network
 	 *            connection (for example, LAN, dial-up, or VPN connection).
+	 *            You must free the strings pointed to by
+	 *            pProxyConfig.lpszAutoConfigUrl, pProxyConfig.lpszProxy, and
+	 *            pProxyConfig.lpszProxyBypass using the GlobalFree function.
 	 * @return {@code true} if successful; otherwise, {@code false}.
 	 */
 	boolean WinHttpGetIEProxyConfigForCurrentUser(WinHttpCurrentUserIEProxyConfig pProxyConfig);

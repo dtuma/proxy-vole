@@ -4,6 +4,7 @@ import com.github.markusbernhardt.proxy.util.Logger;
 import com.sun.jna.LastErrorException;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.WTypes;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -83,6 +84,19 @@ public class WinHttpHelpers {
                 Logger.log(WinHttpHelpers.class, Logger.LogLevel.ERROR,
                     "Windows function GlobalFree failed while freeing memory");
             }
+        }
+    }
+
+    public static String getAndFreeGlobalString(WTypes.LPWSTR h) {
+        if (h == null || h.getPointer() == null) {
+            return null;
+        }
+
+        try {
+            return h.getValue();
+        } finally {
+            freeGlobalMemory(h.getPointer());
+            h.setPointer(null);
         }
     }
 
